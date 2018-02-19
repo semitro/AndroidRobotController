@@ -8,30 +8,24 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Toast;
 
 import java.io.IOException;
-import java.net.InetAddress;
 import java.net.SocketException;
-import java.net.UnknownHostException;
 
 public class MainActivity extends AppCompatActivity {
 
     private UDPClient client;
-
-
-    private AutoCompleteTextView ipTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         try{
-            client = new UDPClient(InetAddress.getByName("192.168.0.112"),5445);
-        }catch (SocketException | UnknownHostException e){
-            Toast.makeText(this, e.getMessage(), 800).show();
+            client = new UDPClient();
+        }catch (SocketException e){
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
             Log.e("ex", e.getMessage());
         }
 
@@ -40,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         buttonF.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sendCommand('w');
+                sendCommand(new byte[]{'@','m','w','@'});
             }
         });
 
@@ -48,43 +42,43 @@ public class MainActivity extends AppCompatActivity {
         buttonB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sendCommand('s');
+                sendCommand(new byte[]{'@','m','x','@'});
             }
         });
 
         final Button buttonL = (Button)findViewById(R.id.buttonL);
-        buttonL.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                sendCommand('a');
-            }
-        });
+//        buttonL.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                sendCommand('a');
+//            }
+//        });
 
         final Button buttonR = (Button)findViewById(R.id.buttonR);
-        buttonR.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                sendCommand('d');
-            }
-        });
+//        buttonR.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                sendCommand('d');
+//            }
+//        });
         final Button buttonStop = (Button)findViewById(R.id.buttonStop);
         buttonStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sendCommand('x');
+                sendCommand(new byte[]{'@','m','s','@'});
             }
         });
         final Button buttonBoost = (Button)findViewById(R.id.buttonBoost);
         buttonBoost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sendCommand('u');
+
             }
         });
     }
 
 
-    private void sendCommand(final char fill){
+    private void sendCommand(final byte[] fill){
 
         Log.i("Sending command:", "" + fill);
             // Network in the other thread is required by the вos.
@@ -92,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     try {
-                        client.sendMsg(new byte[]{(byte)fill});
+                        client.sendMsg(fill);
                     } catch (IOException e) {
                         Log.e("Exception", e.toString());
                     }
