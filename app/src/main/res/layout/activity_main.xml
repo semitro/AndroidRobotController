@@ -16,30 +16,44 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-    <GridLayout
+
+        <GridLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:columnCount="3"
         android:orientation="horizontal"
     >
-    <ImageView/>
-    <Button
+            <Button
+                android:text="ButtonFL"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/button"
+                android:onClick="moveForwardLeftClick"/>
+            <Button
         android:id="@+id/buttonF"
         android:text="Вперёд!"
         android:layout_width="220px"
         android:layout_height="220px"
         android:background="@color/simpleButton"
-
+        android:onClick="moveForwardClick"
         />
-        <ImageView/>
-        <Button
+
+            <Button
+                android:text="ButtonFR"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/button2"
+                android:onClick="moveForwardRightClick"
+                />
+
+            <Button
         android:id="@+id/buttonL"
         android:text="Влево!"
         android:layout_width="220px"
         android:layout_height="220px"
         android:background="@color/simpleButton"
-
+        android:onClick="moveLeftClick"
             />
         <ProgressBar android:layout_width="220px"
                      android:layout_height="220px"
@@ -53,25 +67,41 @@
         android:layout_width="220px"
         android:layout_height="220px"
         android:background="@color/simpleButton"
-
+        android:onClick="moveRightClick"
             />
-        <QuickContactBadge/>
-        <Button
+
+            <Button
+                android:text="ButtonBL"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="moveBackLeftClick"
+                android:id="@+id/buttonBL"/>
+
+            <Button
             android:id="@+id/buttonB"
             android:text="Назад!"
             android:layout_width="220px"
             android:layout_height="220px"
             android:background="@color/simpleButton"
+            android:onClick="moveBackClick"
             />
-        <ImageView/>
-        <Button
+
+            <Button
+                android:text="ButtonBR"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/buttonBR"
+                android:onClick="moveBackRightClick"
+                />
+
+            <Button
             android:id="@+id/buttonStop"
             android:text="Стоп!"
             android:layout_width="220px"
             android:layout_height="220px"
             android:background="@color/stopButton"
             android:textStyle="bold"
-            android:onClick=""
+            android:onClick="stopClick"
         />
         <ImageView/>
         <Button
@@ -82,5 +112,15 @@
             android:background="@color/boostButton"
         />
     </GridLayout>
+
+        <SeekBar
+            style="@style/Widget.AppCompat.SeekBar.Discrete"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:max="4"
+            android:progress="1"
+            android:id="@+id/seekBarSpeed"
+
+            />
     </LinearLayout>
 </RelativeLayout>

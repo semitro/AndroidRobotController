@@ -8,11 +8,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.widget.SeekBar;
 import android.widget.Toast;
+import smt.vt.Settings.Settings;
 
 import java.io.IOException;
 import java.net.SocketException;
+import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,50 +30,19 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
             Log.e("ex", e.getMessage());
         }
-
-
-        final Button buttonF = (Button)findViewById(R.id.buttonF);
-        buttonF.setOnClickListener(new View.OnClickListener() {
+        ((SeekBar)findViewById(R.id.seekBarSpeed)).setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
-            public void onClick(View view) {
-                sendCommand(new byte[]{'@','m','w','@'});
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                sendCommand(Settings.getSpeedControlMessage(i+1));
             }
-        });
 
-        final Button buttonB = (Button)findViewById(R.id.buttonB);
-        buttonB.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                sendCommand(new byte[]{'@','m','x','@'});
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
             }
-        });
 
-        final Button buttonL = (Button)findViewById(R.id.buttonL);
-//        buttonL.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                sendCommand('a');
-//            }
-//        });
-
-        final Button buttonR = (Button)findViewById(R.id.buttonR);
-//        buttonR.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                sendCommand('d');
-//            }
-//        });
-        final Button buttonStop = (Button)findViewById(R.id.buttonStop);
-        buttonStop.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                sendCommand(new byte[]{'@','m','s','@'});
-            }
-        });
-        final Button buttonBoost = (Button)findViewById(R.id.buttonBoost);
-        buttonBoost.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            public void onStopTrackingTouch(SeekBar seekBar) {
 
             }
         });
@@ -80,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void sendCommand(final byte[] fill){
 
-        Log.i("Sending command:", "" + fill);
+        Log.i("Sending command:", Arrays.toString(fill));
             // Network in the other thread is required by the вos.
             AsyncTask.execute(new Runnable() {
                 @Override
@@ -105,5 +76,41 @@ public class MainActivity extends AppCompatActivity {
         // Prepare the settings activity
         Intent intent = new Intent(MainActivity.this, MainMenu.class);
         startActivity(intent);
+    }
+
+    public void moveForwardClick(View view) {
+        sendCommand(Settings.getMoveForwardMessage());
+    }
+
+    public void moveLeftClick(View view) {
+        sendCommand(Settings.getMoveLeftMessage());
+    }
+
+    public void moveRightClick(View view) {
+        sendCommand(Settings.getMoveRightMessage());
+    }
+
+    public void stopClick(View view) {
+        sendCommand(Settings.getMoveStopMessage());
+    }
+
+    public void moveBackClick(View view) {
+        sendCommand(Settings.getMoveBackMessage());
+    }
+
+    public void moveForwardLeftClick(View view) {
+        sendCommand(Settings.getMoveForwardLeftMessage());
+    }
+
+    public void moveForwardRightClick(View view) {
+        sendCommand(Settings.getMoveForwardRightMessage());
+    }
+
+    public void moveBackLeftClick(View view) {
+        sendCommand(Settings.getMoveBackLeftMessage());
+    }
+
+    public void moveBackRightClick(View view) {
+        sendCommand(Settings.getMoveBackRightMessage());
     }
 }
